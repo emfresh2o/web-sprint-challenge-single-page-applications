@@ -11,7 +11,7 @@ const ConfirmedOrder = () => {
             <CardImg src='https://media.giphy.com/media/UqSQDOXzsvUxYoei4x/giphy.gif' alt="Pizza Party!"
             />
         </Card>
-        <h2 style={{color:'white', fontSize: '30px', fontWeight: '80%', position: 'absolute', left: '37%', top: '25%' }}>LET'S GET READY TO PARTY!!!</h2>
+        <h2 style={{color:'white', fontSize: '35px', fontWeight: '80%', position: 'absolute', left: '35%', top: '25%' }}>LET'S GET READY TO PARTY!!!</h2>
         </>
     );
 };
