@@ -31,7 +31,7 @@ Commit your code regularly and meaningfully. This helps both you (in case you ev
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question.
 
 1. [√] In 1-2 sentences, explain what React's `useRouteMatch` hook is used for.
-    -->> useRouteMatch is a type of hook used in React Router which provides access to the `match’ property to the URL without rendering a `Route` component.
+    -->> useRouteMatch is a type of hook used in React Router which provides access to the `match` property to the URL without rendering a `Route` component.
 
 2. [√]How would you explain form validation to someone who has never programmed before?
     -->> In programming, web apps consist of pages that needs information for signing up or login in.  This pages especially have forms that users are required to put in required information. As a developer we build the form and test the functions, validate it, then display the error for users to see what is required, incase they mistype or put in a wrong information, and this is called `Form Validation’.
