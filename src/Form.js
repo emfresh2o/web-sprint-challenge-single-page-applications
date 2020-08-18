@@ -24,8 +24,18 @@ const OrderForm = () => {
 // set button function to validate input is submitted
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
+// making button enabled when form is validated and submitted           
+useEffect(() => {
+    schema.isValid(formData).then((valid) => {
+        setButtonDisabled(!valid);
+    });
+}, [formData]);
+
 // set final ordering state
-    const [finalOrder, setFinalOrder] = useState({
+    const [post, setPost] = useState([]);
+
+// set errors
+    const [errors, setErrors] = useState({
         name: "",
         size: "",
         sauce: "",
@@ -38,6 +48,25 @@ const OrderForm = () => {
         special: ""
     })
 
+// inline validation with yup
+const validateChange = (e) => {
+    yup
+    .reach(schema, e.target.name)
+    .validate(e.target.value)
+    .then((valid) => {
+        setErrors({
+        ...errors,
+        [e.target.errors]: ""
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+        setErrors({
+        ...errors,
+        [e.target.name]: err.errors[0]
+        })
+    })
+}
 // validation using schema
     const schema = yup.object().shape({
         name: yup.string().required("Full Name Required").min(2),
@@ -51,16 +80,6 @@ const OrderForm = () => {
         olives: yup.boolean(),
         special: yup.string(),
     });
-
-//post data API using axios
-    const orderData = () => {
-        axios
-            .post('https://reqres.in/api/users', finalOrder)
-            .then((response) => {
-                console.log(response.data, "this is your posted data")
-                setFinalOrder(response.data)
-            });
-    }
 
 // submit form 
     const formSubmit = (e) => {
@@ -87,15 +106,7 @@ const OrderForm = () => {
             .catch(err => console.log(err.response));
 
     });
-
-    orderData();
   };
-// making button enabled when form is validated and submitted           
-useEffect(() => {
-    schema.isValid(formData).then((valid) => {
-        setButtonDisabled(!valid);
-    });
-}, [formData]);
 
 // handling change of form component
     const handleChange = (e) => {
@@ -105,14 +116,14 @@ useEffect(() => {
         setFormData({ ...formData, [e.target.name]: e.target.checked });
     };
     const toggle = (e) => setDropdownOpen((prevState) => !prevState);
-    
+
     return (
         <>
         <Card color='danger'>
-            <h2 style={{color: 'white', margin: '0 auto'}}>
+            <h2 style={{color: 'white', textAlign: 'center'}}>
                 Let's Build Your Pizza!
             </h2>
-            <CardImg style={{width: '80%', margin: '0 auto'}} src={require('./Assets/Pizza.jpg')}/>
+            <CardImg style={{width: '100%', margin: '0 auto'}} src={require('./Assets/Pizza.jpg')}/>
         </Card>
         <Form data-cy='submit' onSubmit={formSubmit} style={{ margin: '20px auto', width: '50%'}}>
         <FormGroup>
@@ -234,7 +245,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -245,7 +256,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -256,7 +267,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -267,7 +278,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -278,7 +289,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -289,7 +300,7 @@ useEffect(() => {
           <FormGroup check>
             <Label check>
               <Input
-                type="radio"
+                type="checkbox"
                 name="protein"
                 value={formData.protein}
                 onChange={handleChange}
@@ -375,8 +386,9 @@ useEffect(() => {
           />
         </FormGroup>
         <Link to={'/PizzaParty'}>
-        <Button isabled={buttonDisabled} type="submit">Submit</Button>
+        <Button color='success' size='sm' isabled={buttonDisabled} type="submit">Submit</Button>
         </Link>
+        <pre>{JSON.stringify(post, null, 2)}</pre>
       </Form>
     </>
   );
